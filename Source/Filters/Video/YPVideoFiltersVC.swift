@@ -56,6 +56,7 @@ public final class YPVideoFiltersVC: UIViewController, IsMediaFilterVC {
     }()
     private let videoView: YPVideoView = {
         let v = YPVideoView()
+        v.backgroundColor = UIColor.black
         return v
     }()
     private let coverImageView: UIImageView = {
@@ -150,8 +151,9 @@ public final class YPVideoFiltersVC: UIViewController, IsMediaFilterVC {
             )
         )
 
-        videoView.fillHorizontally().top(0)
-        videoView.Bottom == trimmerContainerView.Top
+        videoView.heightEqualsWidth().fillHorizontally().top(0)
+        videoView.Bottom == view.safeAreaLayoutGuide.Bottom
+        videoView.centerVertically()
 
         coverImageView.followEdges(videoView)
 
