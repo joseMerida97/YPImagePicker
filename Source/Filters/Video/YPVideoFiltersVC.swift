@@ -148,8 +148,6 @@ public final class YPVideoFiltersVC: UIViewController, IsMediaFilterVC {
 
     private func setupLayout() {
         view.subviews(
-            trimBottomItem,
-            coverBottomItem,
             videoView,
             coverImageView,
             trimmerContainerView.subviews(
