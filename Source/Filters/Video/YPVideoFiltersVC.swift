@@ -56,7 +56,6 @@ public final class YPVideoFiltersVC: UIViewController, IsMediaFilterVC {
     }()
     private let videoView: YPVideoView = {
         let v = YPVideoView()
-        v.backgroundColor = UIColor.black
         return v
     }()
     private let coverImageView: UIImageView = {
@@ -73,6 +72,8 @@ public final class YPVideoFiltersVC: UIViewController, IsMediaFilterVC {
 
         setupLayout()
         title = YPConfig.wordings.trim
+        navigationController?.navigationBar.tintColor = .ypLabel
+        
         view.backgroundColor = YPConfig.colors.filterBackgroundColor
         setupNavigationBar(isFromSelectionVC: self.isFromSelectionVC)
 
@@ -151,9 +152,8 @@ public final class YPVideoFiltersVC: UIViewController, IsMediaFilterVC {
             )
         )
 
-        videoView.heightEqualsWidth().fillHorizontally().top(0)
-        videoView.Bottom == view.safeAreaLayoutGuide.Bottom
-        videoView.centerVertically()
+        videoView.heightEqualsWidth().fillHorizontally().top(60)
+        videoView.Bottom == trimmerContainerView.Top
 
         coverImageView.followEdges(videoView)
 
@@ -162,7 +162,7 @@ public final class YPVideoFiltersVC: UIViewController, IsMediaFilterVC {
         trimmerContainerView.Bottom == view.safeAreaLayoutGuide.Bottom
 
         trimmerView.fillHorizontally(padding: 30).centerVertically()
-        trimmerView.Height == trimmerContainerView.Height / 2
+        trimmerView.Height == trimmerContainerView.Height / 3
     }
 
     // MARK: - Actions

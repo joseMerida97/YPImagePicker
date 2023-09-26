@@ -16,7 +16,7 @@ extension UIColor {
     static var offWhiteOrBlack: UIColor {
         if #available(iOS 13, *) {
             return UIColor { (traitCollection: UITraitCollection) -> UIColor in
-                let rgbValue: CGFloat = traitCollection.userInterfaceStyle == .dark ? 0 : 247
+                let rgbValue: CGFloat = 0
                 return UIColor(r: rgbValue, g: rgbValue, b: rgbValue)
             }
         } else {
@@ -29,14 +29,14 @@ extension UIColor {
     /// Like `.label`, but backwards-compatible with iOS 12 and lower.
     static var ypLabel: UIColor {
         if #available(iOS 13, *) {
-            return .label
+            return .white
         }
-        return .black
+        return .white
     }
     
     static var ypSecondaryLabel: UIColor {
         if #available(iOS 13, *) {
-            return .secondaryLabel
+            return .white
         }
         return UIColor(r: 153, g: 153, b: 153)
     }
@@ -46,7 +46,7 @@ extension UIColor {
     /// Like `.secondarySystemBackground`, but backwards-compatible with iOS 12 and lower.
     static var ypSecondarySystemBackground: UIColor {
         if #available(iOS 13, *) {
-            return .secondarySystemBackground
+            return .black
         }
         return UIColor(r: 247, g: 247, b: 247)
     }
@@ -56,9 +56,9 @@ extension UIColor {
     /// Like `.systemBackground`, but backwards-compatible with iOS 12 and lower.
     static var ypSystemBackground: UIColor {
         if #available(iOS 13, *) {
-            return .systemBackground
+            return .black
         }
-        return .white
+        return .black
     }
     
     /// The base blue color.

@@ -148,6 +148,7 @@ class ExampleViewController: UIViewController {
 
         /* Customize wordings */
         config.wordings.libraryTitle = "Gallery"
+        config.colors.filterBackgroundColor = UIColor.black
 
         /* Defines if the status bar should be hidden when showing the picker. Default is true */
         config.hidesStatusBar = false

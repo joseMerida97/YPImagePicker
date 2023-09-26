@@ -227,9 +227,7 @@ open class YPPickerVC: YPBottomPager, YPBottomPagerDelegate {
         label.font = YPConfig.fonts.pickerTitleFont
 
         // Use custom textColor if set by user.
-        if let navBarTitleColor = UINavigationBar.appearance().titleTextAttributes?[.foregroundColor] as? UIColor {
-            label.textColor = navBarTitleColor
-        }
+        label.textColor = .ypLabel
         
         if YPConfig.library.options != nil {
             titleView.subviews(
