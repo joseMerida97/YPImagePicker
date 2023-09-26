@@ -54,18 +54,6 @@ public final class YPVideoFiltersVC: UIViewController, IsMediaFilterVC {
         v.isHidden = true
         return v
     }()
-    private lazy var trimBottomItem: YPMenuItem = {
-        let v = YPMenuItem()
-        v.textLabel.text = YPConfig.wordings.trim
-        v.button.addTarget(self, action: #selector(selectTrim), for: .touchUpInside)
-        return v
-    }()
-    private lazy var coverBottomItem: YPMenuItem = {
-        let v = YPMenuItem()
-        v.textLabel.text = YPConfig.wordings.cover
-        v.button.addTarget(self, action: #selector(selectCover), for: .touchUpInside)
-        return v
-    }()
     private let videoView: YPVideoView = {
         let v = YPVideoView()
         return v
@@ -108,7 +96,13 @@ public final class YPVideoFiltersVC: UIViewController, IsMediaFilterVC {
         coverThumbSelectorView.asset = inputAsset
         coverThumbSelectorView.delegate = self
         
-        selectTrim()
+        title = YPConfig.wordings.trim
+
+        trimmerView.isHidden = false
+        videoView.isHidden = false
+        coverImageView.isHidden = true
+        coverThumbSelectorView.isHidden = true
+        
         videoView.loadVideo(inputVideo)
         videoView.showPlayImage(show: true)
         startPlaybackTimeChecker()
@@ -156,13 +150,6 @@ public final class YPVideoFiltersVC: UIViewController, IsMediaFilterVC {
             )
         )
 
-        trimBottomItem.leading(0).height(40)
-        trimBottomItem.Bottom == view.safeAreaLayoutGuide.Bottom
-        trimBottomItem.Trailing == coverBottomItem.Leading
-        coverBottomItem.Bottom == view.safeAreaLayoutGuide.Bottom
-        coverBottomItem.trailing(0)
-        equal(sizes: trimBottomItem, coverBottomItem)
-
         videoView.heightEqualsWidth().fillHorizontally().top(0)
         videoView.Bottom == trimmerContainerView.Top
 
@@ -170,12 +157,10 @@ public final class YPVideoFiltersVC: UIViewController, IsMediaFilterVC {
 
         trimmerContainerView.fillHorizontally()
         trimmerContainerView.Top == videoView.Bottom
-        trimmerContainerView.Bottom == trimBottomItem.Top
+        trimmerContainerView.Bottom == view.safeAreaLayoutGuide.Bottom
 
         trimmerView.fillHorizontally(padding: 30).centerVertically()
         trimmerView.Height == trimmerContainerView.Height / 3
-
-        coverThumbSelectorView.followEdges(trimmerView)
     }
 
     // MARK: - Actions
@@ -225,35 +210,6 @@ public final class YPVideoFiltersVC: UIViewController, IsMediaFilterVC {
     
     @objc private func cancel() {
         didCancel?()
-    }
-
-    // MARK: - Bottom buttons
-
-    @objc private func selectTrim() {
-        title = YPConfig.wordings.trim
-        
-        trimBottomItem.select()
-        coverBottomItem.deselect()
-
-        trimmerView.isHidden = false
-        videoView.isHidden = false
-        coverImageView.isHidden = true
-        coverThumbSelectorView.isHidden = true
-    }
-    
-    @objc private func selectCover() {
-        title = YPConfig.wordings.cover
-        
-        trimBottomItem.deselect()
-        coverBottomItem.select()
-        
-        trimmerView.isHidden = true
-        videoView.isHidden = true
-        coverImageView.isHidden = false
-        coverThumbSelectorView.isHidden = false
-        
-        stopPlaybackTimeChecker()
-        videoView.stop()
     }
     
     // MARK: - Various Methods
