@@ -150,7 +150,7 @@ public final class YPVideoFiltersVC: UIViewController, IsMediaFilterVC {
             )
         )
 
-        videoView.heightEqualsWidth().fillHorizontally().top(0)
+        videoView.fillHorizontally().top(0)
         videoView.Bottom == trimmerContainerView.Top
 
         coverImageView.followEdges(videoView)
