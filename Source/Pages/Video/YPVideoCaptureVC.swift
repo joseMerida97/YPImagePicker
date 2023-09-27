@@ -81,6 +81,7 @@ internal class YPVideoCaptureVC: UIViewController, YPPermissionCheckable {
     private func linkButtons() {
         v.flashButton.addTarget(self, action: #selector(flashButtonTapped), for: .touchUpInside)
         v.shotButton.addTarget(self, action: #selector(shotButtonTapped), for: .touchUpInside)
+        v.shotButton.addGestureRecognizer(UILongPressGestureRecognizer(target: self, action: #selector(shotButtonLongPressed(_:))))
         v.flipButton.addTarget(self, action: #selector(flipButtonTapped), for: .touchUpInside)
     }
     
@@ -111,6 +112,12 @@ internal class YPVideoCaptureVC: UIViewController, YPPermissionCheckable {
     func shotButtonTapped() {
         doAfterCameraPermissionCheck { [weak self] in
             self?.toggleRecording()
+        }
+    }
+    
+    @objc private func shotButtonLongPressed(_ gesture: UILongPressGestureRecognizer) {
+        if gesture.state == .began || gesture.state == .ended {
+            self.toggleRecording()
         }
     }
     
