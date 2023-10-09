@@ -72,6 +72,14 @@ public final class YPVideoFiltersVC: UIViewController, IsMediaFilterVC {
         v.isHidden = true
         return v
     }()
+    private let messagelabel: UILabel = {
+        let l = UILabel()
+        l.text(YPConfig.video.trimmerMessage)
+        l.textAlignment = .center
+        l.textColor = .white
+        l.numberOfLines = 3
+        return l
+    }()
 
     private let rulerView = RulerView()
 
@@ -161,6 +169,7 @@ public final class YPVideoFiltersVC: UIViewController, IsMediaFilterVC {
             coverImageView,
             trimmerContainerView.subviews(
                 singleTrimmerContainerView.subviews(
+                    messagelabel,
                     trimmerView,
                     rulerView
                     ),
@@ -168,7 +177,7 @@ public final class YPVideoFiltersVC: UIViewController, IsMediaFilterVC {
             )
         )
 
-        videoView.heightEqualsWidth().fillHorizontally().top(60)
+        videoView.heightEqualsWidth().fillHorizontally().top(30)
         videoView.Bottom == trimmerContainerView.Top
 
         coverImageView.followEdges(videoView)
@@ -177,16 +186,20 @@ public final class YPVideoFiltersVC: UIViewController, IsMediaFilterVC {
         trimmerContainerView.Top == videoView.Bottom
         trimmerContainerView.Bottom == view.safeAreaLayoutGuide.Bottom
         
-        singleTrimmerContainerView.Height == trimmerContainerView.Height / 2
+        singleTrimmerContainerView.Height == trimmerContainerView.Height
         singleTrimmerContainerView.fillHorizontally(padding: 30).centerVertically()
         
         rulerView.fillHorizontally()
         trimmerView.fillHorizontally()
+        messagelabel.fillHorizontally()
         
-        trimmerView.Top == singleTrimmerContainerView.Top
+        messagelabel.Top == singleTrimmerContainerView.Top
+        messagelabel.Bottom == trimmerView.Top
+        trimmerView.Top == messagelabel.Bottom
         trimmerView.Bottom == rulerView.Top
         rulerView.Bottom == singleTrimmerContainerView.Bottom
-        rulerView.Height == singleTrimmerContainerView.Height / 2
+        rulerView.Height == singleTrimmerContainerView.Height / 4
+        trimmerView.Height == singleTrimmerContainerView.Height / 3
     }
 
     // MARK: - Actions
@@ -337,15 +350,12 @@ extension CMTime {
         let totalSeconds = CMTimeGetSeconds(self)
         let hours: Int = Int(totalSeconds / 3600)
         let minutes: Int = Int(totalSeconds.truncatingRemainder(dividingBy: 3600) / 60)
-        let seconds: Int = Int(totalSeconds.truncatingRemainder(dividingBy: 60))
-        let milliseconds: Int = Int((totalSeconds.truncatingRemainder(dividingBy: 1)) * 10)
+        let seconds: Int = Int(round(totalSeconds.truncatingRemainder(dividingBy: 60)))
         
         if hours > 0 {
-            return String(format: "%i:%02i:%02i.%01i", hours, minutes, seconds, milliseconds)
-        } else if minutes > 0 {
-            return String(format: "%02i:%02i.%01i", minutes, seconds, milliseconds)
+            return String(format: "%i:%02i:%02i", hours, minutes, seconds)
         } else {
-            return String(format: "%02i.%01i", seconds, milliseconds)
+            return String(format: "%02i:%02i", minutes, seconds)
         }
     }
 }

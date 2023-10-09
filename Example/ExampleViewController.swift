@@ -89,6 +89,7 @@ class ExampleViewController: UIViewController {
         /* Choose what media types are available in the library. Defaults to `.photo` */
         config.library.mediaType = .photoAndVideo
 		config.library.itemOverlayType = .grid
+        config.video.trimmerMessage = "You must ensure that your video is trimmed to a maximum duration of 30 seconds."
         /* Enables selecting the front camera by default, useful for avatars. Defaults to false */
         // config.usesFrontCamera = true
 
@@ -161,7 +162,7 @@ class ExampleViewController: UIViewController {
         config.library.maxNumberOfItems = 5
         config.gallery.hidesRemoveButton = false
 
-        config.video.trimmerMaxDuration = 10
+        config.video.trimmerMaxDuration = 30
         config.video.trimmerMinDuration = 6
         /* Disable scroll to change between mode */
         // config.isScrollToChangeModesEnabled = false

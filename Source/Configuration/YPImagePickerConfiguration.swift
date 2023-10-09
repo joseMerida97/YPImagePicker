@@ -278,6 +278,10 @@ public struct YPConfigVideo {
     /// - Tag: trimmerMaxDuration
     public var trimmerMaxDuration: Double = 60.0
     
+    /// The message displayed ofer the trimmerView
+    /// Default is empty
+    public var trimmerMessage: String = ""
+    
     /// The minimum duration allowed for the trimming.
     /// The handles won't pan further if the minimum duration is attained.
     public var trimmerMinDuration: Double = 3.0

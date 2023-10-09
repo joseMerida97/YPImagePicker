@@ -58,6 +58,7 @@ class YPLibraryViewCell: UICollectionViewCell {
     var representedAssetIdentifier: String!
     let imageView = UIImageView()
     let durationLabel = UILabel()
+    let backgroundOverlay = UIView()
     let selectionOverlay = UIView()
     let multipleSelectionIndicator = YPMultipleSelectionIndicator()
     
@@ -67,12 +68,14 @@ class YPLibraryViewCell: UICollectionViewCell {
         
         subviews(
             imageView,
+            backgroundOverlay,
             durationLabel,
             selectionOverlay,
             multipleSelectionIndicator
         )
 
         imageView.fillContainer()
+        backgroundOverlay.fillContainer()
         selectionOverlay.fillContainer()
         layout(
             durationLabel-5-|,
@@ -89,6 +92,14 @@ class YPLibraryViewCell: UICollectionViewCell {
         durationLabel.textColor = .white
         durationLabel.font = YPConfig.fonts.durationFont
         durationLabel.isHidden = true
+        
+        let gradientLayer = CAGradientLayer()
+        gradientLayer.frame = bounds
+        gradientLayer.colors = [UIColor.clear.cgColor, UIColor.clear.cgColor, UIColor.black.cgColor]
+        gradientLayer.locations = [0.0, 0.67, 1.0]
+        layer.addSublayer(gradientLayer)
+        
+        backgroundOverlay.layer.addSublayer(gradientLayer)
         selectionOverlay.backgroundColor = .white
         selectionOverlay.alpha = 0
         backgroundColor = .ypSecondarySystemBackground
