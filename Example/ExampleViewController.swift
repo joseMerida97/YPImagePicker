@@ -161,6 +161,8 @@ class ExampleViewController: UIViewController {
         config.library.maxNumberOfItems = 5
         config.gallery.hidesRemoveButton = false
 
+        config.video.trimmerMaxDuration = 10
+        config.video.trimmerMinDuration = 6
         /* Disable scroll to change between mode */
         // config.isScrollToChangeModesEnabled = false
         // config.library.minNumberOfItems = 2

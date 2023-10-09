@@ -39,6 +39,10 @@ public final class YPVideoFiltersVC: UIViewController, IsMediaFilterVC {
         let v = UIView()
         return v
     }()
+    private let singleTrimmerContainerView: UIView = {
+        let v = UIView()
+        return v
+    }()
     private let trimmerView: TrimmerView = {
         let v = TrimmerView()
         v.mainColor = YPConfig.colors.trimmerMainColor
@@ -46,6 +50,10 @@ public final class YPVideoFiltersVC: UIViewController, IsMediaFilterVC {
         v.positionBarColor = YPConfig.colors.positionLineColor
         v.maxDuration = YPConfig.video.trimmerMaxDuration
         v.minDuration = YPConfig.video.trimmerMinDuration
+        return v
+    }()
+    private let timeLabel: UIView = {
+        let v = UIView()
         return v
     }()
     private let coverThumbSelectorView: ThumbSelectorView = {
@@ -65,10 +73,15 @@ public final class YPVideoFiltersVC: UIViewController, IsMediaFilterVC {
         return v
     }()
 
+    private let rulerView = RulerView()
+
+
     // MARK: - Live cycle
 
     override public func viewDidLoad() {
         super.viewDidLoad()
+        
+        rulerView.backgroundColor = .clear
 
         setupLayout()
         title = YPConfig.wordings.trim
@@ -147,7 +160,10 @@ public final class YPVideoFiltersVC: UIViewController, IsMediaFilterVC {
             videoView,
             coverImageView,
             trimmerContainerView.subviews(
-                trimmerView,
+                singleTrimmerContainerView.subviews(
+                    trimmerView,
+                    rulerView
+                    ),
                 coverThumbSelectorView
             )
         )
@@ -160,9 +176,17 @@ public final class YPVideoFiltersVC: UIViewController, IsMediaFilterVC {
         trimmerContainerView.fillHorizontally()
         trimmerContainerView.Top == videoView.Bottom
         trimmerContainerView.Bottom == view.safeAreaLayoutGuide.Bottom
-
-        trimmerView.fillHorizontally(padding: 30).centerVertically()
-        trimmerView.Height == trimmerContainerView.Height / 3
+        
+        singleTrimmerContainerView.Height == trimmerContainerView.Height / 2
+        singleTrimmerContainerView.fillHorizontally(padding: 30).centerVertically()
+        
+        rulerView.fillHorizontally()
+        trimmerView.fillHorizontally()
+        
+        trimmerView.Top == singleTrimmerContainerView.Top
+        trimmerView.Bottom == rulerView.Top
+        rulerView.Bottom == singleTrimmerContainerView.Bottom
+        rulerView.Height == singleTrimmerContainerView.Height / 2
     }
 
     // MARK: - Actions
@@ -254,6 +278,14 @@ public final class YPVideoFiltersVC: UIViewController, IsMediaFilterVC {
     private func stopPlaybackTimeChecker() {
         playbackTimeCheckerTimer?.invalidate()
         playbackTimeCheckerTimer = nil
+        
+        guard let startTime = trimmerView.startTime,
+            let endTime = trimmerView.endTime else {
+            return
+        }
+        
+        rulerView.startTimeLabel.text = startTime.durationText
+        rulerView.endTimeLabel.text = endTime.durationText
     }
     
     @objc private func onPlaybackTimeChecker() {
@@ -296,6 +328,24 @@ extension YPVideoFiltersVC: ThumbSelectorViewDelegate {
         if let imageGenerator = imageGenerator,
             let imageRef = try? imageGenerator.copyCGImage(at: imageTime, actualTime: nil) {
             coverImageView.image = UIImage(cgImage: imageRef)
+        }
+    }
+}
+
+extension CMTime {
+    var durationText: String {
+        let totalSeconds = CMTimeGetSeconds(self)
+        let hours: Int = Int(totalSeconds / 3600)
+        let minutes: Int = Int(totalSeconds.truncatingRemainder(dividingBy: 3600) / 60)
+        let seconds: Int = Int(totalSeconds.truncatingRemainder(dividingBy: 60))
+        let milliseconds: Int = Int((totalSeconds.truncatingRemainder(dividingBy: 1)) * 10)
+        
+        if hours > 0 {
+            return String(format: "%i:%02i:%02i.%01i", hours, minutes, seconds, milliseconds)
+        } else if minutes > 0 {
+            return String(format: "%02i:%02i.%01i", minutes, seconds, milliseconds)
+        } else {
+            return String(format: "%02i.%01i", seconds, milliseconds)
         }
     }
 }
