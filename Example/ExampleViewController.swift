@@ -89,7 +89,7 @@ class ExampleViewController: UIViewController {
         /* Choose what media types are available in the library. Defaults to `.photo` */
         config.library.mediaType = .photoAndVideo
 		config.library.itemOverlayType = .grid
-        config.video.trimmerMessage = "You must ensure that your video is trimmed to a maximum duration of 30 seconds."
+        config.video.trimmerMessage = "You must trim your video to a maximum duration of 30 seconds."
         /* Enables selecting the front camera by default, useful for avatars. Defaults to false */
         // config.usesFrontCamera = true
 

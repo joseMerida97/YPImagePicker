@@ -77,6 +77,7 @@ public final class YPVideoFiltersVC: UIViewController, IsMediaFilterVC {
         l.text(YPConfig.video.trimmerMessage)
         l.textAlignment = .center
         l.textColor = .white
+        l.font = .systemFont(ofSize: 14)
         l.numberOfLines = 3
         return l
     }()
@@ -182,7 +183,7 @@ public final class YPVideoFiltersVC: UIViewController, IsMediaFilterVC {
 
         coverImageView.followEdges(videoView)
 
-        trimmerContainerView.fillHorizontally()
+        trimmerContainerView.fillHorizontally().bottom(30)
         trimmerContainerView.Top == videoView.Bottom
         trimmerContainerView.Bottom == view.safeAreaLayoutGuide.Bottom
         
