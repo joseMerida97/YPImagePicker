@@ -327,12 +327,14 @@ extension YPVideoFiltersVC: TrimmerViewDelegate {
         videoView.play()
         startPlaybackTimeChecker()
         updateCoverPickerBounds()
+        navigationItem.rightBarButtonItem?.isEnabled = true
     }
     
     public func didChangePositionBar(_ playerTime: CMTime) {
         stopPlaybackTimeChecker()
         videoView.pause()
         videoView.player.seek(to: playerTime, toleranceBefore: CMTime.zero, toleranceAfter: CMTime.zero)
+        navigationItem.rightBarButtonItem?.isEnabled = false
     }
 }
 
