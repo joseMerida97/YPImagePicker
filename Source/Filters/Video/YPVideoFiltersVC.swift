@@ -277,6 +277,7 @@ public final class YPVideoFiltersVC: UIViewController, IsMediaFilterVC {
     @objc private func itemDidFinishPlaying(_ notification: Notification) {
         if let startTime = trimmerView.startTime {
             videoView.player.seek(to: startTime)
+            videoView.player.play()
         }
     }
     
