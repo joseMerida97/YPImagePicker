@@ -54,10 +54,16 @@ internal class YPVideoCaptureVC: UIViewController, YPPermissionCheckable {
     }
 
     func start() {
-        self.videoHelper.start(previewView: v.previewViewContainer,
-                               withVideoRecordingLimit: YPConfig.video.recordingTimeLimit) { [weak self] in
-            DispatchQueue.main.async {
-                self?.refreshState()
+        doAfterCameraPermissionCheck { [weak self] in
+            guard let previewViewContainer = self?.v.previewViewContainer else {
+                return
+            }
+            
+            self?.videoHelper.start(previewView: previewViewContainer,
+                                    withVideoRecordingLimit: YPConfig.video.recordingTimeLimit) { [weak self] in
+                DispatchQueue.main.async {
+                    self?.refreshState()
+                }
             }
         }
     }

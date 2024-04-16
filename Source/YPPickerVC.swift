@@ -168,7 +168,7 @@ open class YPPickerVC: YPBottomPager, YPBottomPagerDelegate {
         if let vc = vc as? YPLibraryVC {
             vc.doAfterLibraryPermissionCheck { [weak vc] in
                 vc?.initialize()
-            }
+            }//
         } else if let cameraVC = vc as? YPCameraVC {
             cameraVC.start()
         } else if let videoVC = vc as? YPVideoCaptureVC {
