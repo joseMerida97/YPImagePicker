@@ -151,7 +151,7 @@ internal final class YPLibraryVC: UIViewController, YPPermissionCheckable {
     // MARK: - Crop control
     
     @objc
-    func squareCropButtonTapped() {
+    func squareCropButtonTapped() {//
         doAfterLibraryPermissionCheck { [weak self] in
             self?.v.assetViewContainer.squareCropButtonTapped()
         }
@@ -161,20 +161,22 @@ internal final class YPLibraryVC: UIViewController, YPPermissionCheckable {
 
     @objc
     func multipleSelectionButtonTapped() {
-        // If no items, than preventing multiple selection
-        guard mediaManager.hasResultItems else {
-            if #available(iOS 14, *) {
-                PHPhotoLibrary.shared().presentLimitedLibraryPicker(from: self)
-            }
-
-            return
-        }
-
         doAfterLibraryPermissionCheck { [weak self] in
             if self?.isMultipleSelectionEnabled == false {
                 self?.selectedItems.removeAll()
             }
             self?.toggleMultipleSelection()
+        }
+        
+        // If no items, than preventing multiple selection
+        guard mediaManager.hasResultItems else {
+            if #available(iOS 14, *) {
+                if PHPhotoLibrary.authorizationStatus(for: .readWrite) == .limited {
+                    PHPhotoLibrary.shared().presentLimitedLibraryPicker(from: self)
+                }
+            }
+
+            return
         }
     }
     
